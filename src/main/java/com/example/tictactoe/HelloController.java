@@ -91,8 +91,8 @@ public class HelloController {
     private boolean checkDiagonalRight() {
         boolean isWin = true;
         for (int i = 0; i < gameField.length; i++) {
-            if (gameField[i][Math.abs(i - 2)] == null || gameField[i][Math.abs(i - 2)].equals("O")) {
-                System.out.println("ok");
+            if (gameField[i][Math.abs(i - gameField.length)] == null ||
+                    gameField[i][Math.abs(i - gameField.length)].equals("O")) {
                 isWin = false;
                 return isWin;
             }
