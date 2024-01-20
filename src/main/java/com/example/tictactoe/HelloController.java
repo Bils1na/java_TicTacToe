@@ -21,6 +21,8 @@ public class HelloController {
 
     @FXML
     private Line winLine = new Line();
+    @FXML
+    private GridPane gameFieldUI;
 
 
     @FXML
@@ -44,13 +46,17 @@ public class HelloController {
 
         Label label = new Label("Congratulations! You won!");
         label.setStyle("-fx-font-size: 24px;");
-        Button reapetButton = new Button("Again");
+        Button repeatButton = new Button("Again");
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(e -> winWindow.close());
+        repeatButton.setOnAction(e -> {
+            repeat();
+            winWindow.close();
+        });
 
         VBox winWindowContent = new VBox(20);
         HBox buttons = new HBox();
-        buttons.getChildren().addAll(reapetButton, exitButton);
+        buttons.getChildren().addAll(repeatButton, exitButton);
         winWindowContent.getChildren().addAll(label, buttons);
         winWindowContent.setAlignment(javafx.geometry.Pos.CENTER);
         buttons.setAlignment(javafx.geometry.Pos.CENTER);
@@ -59,6 +65,14 @@ public class HelloController {
         winWindow.setScene(dialogScene);
 
         winWindow.showAndWait();
+    }
+
+    private void repeat() {
+        gameField = new String[3][3];
+        for (Node node : gameFieldUI.getChildren()) {
+            ((Button)node).setText("");
+        }
+        setWinLine(0, 0, 0, 0);
     }
 
     private void checkFinish(Integer row, Integer column, Button btn) {
