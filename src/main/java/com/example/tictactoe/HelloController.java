@@ -19,17 +19,9 @@ public class HelloController {
     @FXML
     void btnClick(ActionEvent event) {
         Button button = ((Button)event.getSource());
-//        double x = button.localToParent(0, 0).getX();
-//        double y = button.localToParent(0, 0).getY() + button.getHeight() / 2;
-//        double eX = button.localToParent(0, 0).getX() + button.getWidth();
-//        System.out.println(x);
-//        System.out.println(y);
-//        System.out.println();
-//        System.out.println(eX);
-//        System.out.println(y);
 
-        int rowIndex = GridPane.getRowIndex(button) == null ? 0 : GridPane.getRowIndex(button);
-        int columnIndex = GridPane.getColumnIndex(button) == null ? 0 : GridPane.getColumnIndex(button);
+        Integer rowIndex = GridPane.getRowIndex(button) == null ? 0 : GridPane.getRowIndex(button);
+        Integer columnIndex = GridPane.getColumnIndex(button) == null ? 0 : GridPane.getColumnIndex(button);
         if (gameField[rowIndex][columnIndex] == null) {
             gameField[rowIndex][columnIndex] = currentSymbol;
             button.setText(currentSymbol);
@@ -38,22 +30,22 @@ public class HelloController {
         }
     }
 
-    private void checkFinish(int row, int column, Button btn) {
+    private void checkFinish(Integer row, Integer column, Button btn) {
         if (this.gameField[row] != null) {
             if (checkRow(row)) {
-                if (winLine != null) renderWinLine(btn, row);
-            } else if (checkColumn(column, btn)) {
-                if (winLine != null) winLine.setOpacity(1.0);
+                if (winLine != null) renderWinLine(btn, row, null);
+            } else if (checkColumn(column)) {
+                if (winLine != null) renderWinLine(btn, null, column);
             } else if (checkDiagonalRight() || checkDiagonalLeft()) {
                 if (winLine != null) winLine.setOpacity(1.0);
             }
         }
     }
 
-    private boolean checkRow(int row) {
+    private boolean checkRow(Integer row) {
         boolean isWin = true;
         for (int i = 0; i < gameField[row].length; i++) {
-            if (gameField[row][i] == null || checkSymbolsInRow(row)) {
+            if (gameField[row][i] == null || !checkSymbolsInRow(gameField[row][i], row)) {
                 isWin = false;
                 return isWin;
             }
@@ -61,28 +53,36 @@ public class HelloController {
         return isWin;
     }
 
-    private boolean checkSymbolsInRow(int row) {
+    private boolean checkSymbolsInRow(String symbol, Integer row) {
         boolean isWin = true;
         for (int i = 0; i < gameField[row].length; i++) {
-            for (int j = 0; j < gameField[row].length; j++) {
-                if (!gameField[row][i].equals(gameField[row][j])) {
-                    isWin = false;
-                    return isWin;
-                }
+            if (!symbol.equals(gameField[row][i])) {
+                isWin = false;
+                return isWin;
             }
         }
         return isWin;
     }
 
-    private boolean checkColumn(int column, Button btn) {
+    private boolean checkColumn(Integer column) {
         boolean isWin = true;
         for (int i = 0; i < gameField.length; i++) {
-            if (gameField[i][column] == null || gameField[i][column].equals("O")) {
+            if (gameField[i][column] == null || !checkSymbolsInColumn(gameField[i][column], column)) {
                 isWin = false;
                 return isWin;
             }
         }
-        setWinLine(0, 0, 390, 76);
+        return isWin;
+    }
+
+    private boolean checkSymbolsInColumn(String symbol, Integer column) {
+        boolean isWin = true;
+        for (int i = 0; i < gameField.length; i++) {
+            if (!symbol.equals(gameField[i][column])) {
+                isWin = false;
+                return isWin;
+            }
+        }
         return isWin;
     }
 
@@ -119,21 +119,37 @@ public class HelloController {
         winLine.setEndY(eY);
     }
 
-    private void renderWinLine(Button btn, int row){
+    private void renderWinLine(Button btn, Integer row, Integer column){
         double sX = 0, sY = 0, eX = 0, eY = 0;
-        for (Node node : btn.getParent().getChildrenUnmodifiable()) {
-            int rowNode = GridPane.getRowIndex(node) == null ? 0 : GridPane.getRowIndex(node);
-            int colNode = GridPane.getColumnIndex(node) == null ? 0 : GridPane.getColumnIndex(node);
-            if (rowNode == row && colNode == 0) {
-                sX = node.localToParent(0, 0).getX();
-                sY = node.localToParent(0, 0).getY() + btn.getHeight() / 2;
+        if (row != null) {
+            for (Node node : btn.getParent().getChildrenUnmodifiable()) {
+                int rowNode = GridPane.getRowIndex(node) == null ? 0 : GridPane.getRowIndex(node);
+                int colNode = GridPane.getColumnIndex(node) == null ? 0 : GridPane.getColumnIndex(node);
+                if (rowNode == row && colNode == 0) {
+                    sX = node.localToParent(0, 0).getX();
+                    sY = node.localToParent(0, 0).getY() + btn.getHeight() / 2;
 
+                }
+                if (rowNode == row && colNode == gameField.length - 1) {
+                    eX = node.localToParent(0, 0).getX() + btn.getWidth();
+                    eY = node.localToParent(0, 0).getY() + btn.getHeight() / 2;
+                }
             }
-            if (rowNode == row && colNode == gameField.length - 1) {
-                eX = node.localToParent(0, 0).getX() + btn.getWidth();
-                eY = node.localToParent(0, 0).getY() + btn.getHeight() / 2;
+            setWinLine(sX, sY, eX, eY);
+        } else {
+            for (Node node : btn.getParent().getChildrenUnmodifiable()) {
+                int rowNode = GridPane.getRowIndex(node) == null ? 0 : GridPane.getRowIndex(node);
+                int colNode = GridPane.getColumnIndex(node) == null ? 0 : GridPane.getColumnIndex(node);
+                if (colNode == column && rowNode == 0) {
+                    sX = node.localToParent(0,0).getX() + btn.getWidth() / 2;
+                    sY = node.localToParent(0, 0).getY();
+                }
+                if (colNode == column && colNode == gameField.length - 1) {
+                    eX = node.localToParent(0, 0).getX() + btn.getWidth() / 2;
+                    eY = node.localToParent(0, 0).getX() + btn.getHeight();
+                }
             }
+            setWinLine(sX, sY, eX, eY);
         }
-        setWinLine(sX, sY, eX, eY);
     }
 }
