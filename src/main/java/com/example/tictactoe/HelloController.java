@@ -94,7 +94,7 @@ public class HelloController {
                 return isWin;
             }
         }
-        setWinLine(12.999988555908203, 10.999988555908203, 390, 383);
+        setWinLine(0, 0, 392, 393);
         return isWin;
     }
 
@@ -107,7 +107,7 @@ public class HelloController {
                 return isWin;
             }
         }
-        setWinLine(390, 11, 13, 383);
+        setWinLine(392, 0, 0, 393);
         return isWin;
     }
 
@@ -128,7 +128,6 @@ public class HelloController {
                 if (rowNode == row && colNode == 0) {
                     sX = node.localToParent(0, 0).getX();
                     sY = node.localToParent(0, 0).getY() + btn.getHeight() / 2;
-
                 }
                 if (rowNode == row && colNode == gameField.length - 1) {
                     eX = node.localToParent(0, 0).getX() + btn.getWidth();
@@ -144,9 +143,9 @@ public class HelloController {
                     sX = node.localToParent(0,0).getX() + btn.getWidth() / 2;
                     sY = node.localToParent(0, 0).getY();
                 }
-                if (colNode == column && colNode == gameField.length - 1) {
+                if (colNode == column && rowNode == gameField.length - 1) {
                     eX = node.localToParent(0, 0).getX() + btn.getWidth() / 2;
-                    eY = node.localToParent(0, 0).getX() + btn.getHeight();
+                    eY = node.localToParent(0, 0).getY() + btn.getHeight();
                 }
             }
             setWinLine(sX, sY, eX, eY);
