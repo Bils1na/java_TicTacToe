@@ -2,6 +2,7 @@ package com.example.tictactoe;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Line;
@@ -18,14 +19,14 @@ public class HelloController {
     @FXML
     void btnClick(ActionEvent event) {
         Button button = ((Button)event.getSource());
-        double x = button.localToParent(0, 0).getX();
-        double y = button.localToParent(0, 0).getY() + button.getHeight() / 2;
-        double eX = button.localToParent(0, 0).getX() + button.getWidth();
-        System.out.println(x);
-        System.out.println(y);
-        System.out.println();
-        System.out.println(eX);
-        System.out.println(y);
+//        double x = button.localToParent(0, 0).getX();
+//        double y = button.localToParent(0, 0).getY() + button.getHeight() / 2;
+//        double eX = button.localToParent(0, 0).getX() + button.getWidth();
+//        System.out.println(x);
+//        System.out.println(y);
+//        System.out.println();
+//        System.out.println(eX);
+//        System.out.println(y);
 
         int rowIndex = GridPane.getRowIndex(button) == null ? 0 : GridPane.getRowIndex(button);
         int columnIndex = GridPane.getColumnIndex(button) == null ? 0 : GridPane.getColumnIndex(button);
@@ -33,14 +34,14 @@ public class HelloController {
             gameField[rowIndex][columnIndex] = currentSymbol;
             button.setText(currentSymbol);
             currentSymbol = currentSymbol.equals("X") ? "O" : "X";
-            checkFinish(rowIndex, columnIndex, rowIndex, columnIndex, button);
+            checkFinish(rowIndex, columnIndex,button);
         }
     }
 
-    private void checkFinish(int row, int column, int rowIndex, int columnIndex, Button btn) {
+    private void checkFinish(int row, int column, Button btn) {
         if (this.gameField[row] != null) {
-            if (checkRow(row, columnIndex, btn)) {
-                if (winLine != null) winLine.setOpacity(1.0);
+            if (checkRow(row)) {
+                if (winLine != null) renderWinLine(btn, row);
             } else if (checkColumn(column, btn)) {
                 if (winLine != null) winLine.setOpacity(1.0);
             } else if (checkDiagonalRight() || checkDiagonalLeft()) {
@@ -49,15 +50,27 @@ public class HelloController {
         }
     }
 
-    private boolean checkRow(int row, int columnIndex, Button btn) {
+    private boolean checkRow(int row) {
         boolean isWin = true;
         for (int i = 0; i < gameField[row].length; i++) {
-            if (gameField[row][i] == null || gameField[row][i].equals("O")) {
+            if (gameField[row][i] == null || checkSymbolsInRow(row)) {
                 isWin = false;
                 return isWin;
             }
         }
-        setWinLine(0, 0, 390, 76);
+        return isWin;
+    }
+
+    private boolean checkSymbolsInRow(int row) {
+        boolean isWin = true;
+        for (int i = 0; i < gameField[row].length; i++) {
+            for (int j = 0; j < gameField[row].length; j++) {
+                if (!gameField[row][i].equals(gameField[row][j])) {
+                    isWin = false;
+                    return isWin;
+                }
+            }
+        }
         return isWin;
     }
 
@@ -106,4 +119,21 @@ public class HelloController {
         winLine.setEndY(eY);
     }
 
+    private void renderWinLine(Button btn, int row){
+        double sX = 0, sY = 0, eX = 0, eY = 0;
+        for (Node node : btn.getParent().getChildrenUnmodifiable()) {
+            int rowNode = GridPane.getRowIndex(node) == null ? 0 : GridPane.getRowIndex(node);
+            int colNode = GridPane.getColumnIndex(node) == null ? 0 : GridPane.getColumnIndex(node);
+            if (rowNode == row && colNode == 0) {
+                sX = node.localToParent(0, 0).getX();
+                sY = node.localToParent(0, 0).getY() + btn.getHeight() / 2;
+
+            }
+            if (rowNode == row && colNode == gameField.length - 1) {
+                eX = node.localToParent(0, 0).getX() + btn.getWidth();
+                eY = node.localToParent(0, 0).getY() + btn.getHeight() / 2;
+            }
+        }
+        setWinLine(sX, sY, eX, eY);
+    }
 }
