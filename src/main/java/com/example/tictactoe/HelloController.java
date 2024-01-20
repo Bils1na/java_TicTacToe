@@ -3,9 +3,16 @@ package com.example.tictactoe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class HelloController {
 
@@ -26,18 +33,51 @@ public class HelloController {
             gameField[rowIndex][columnIndex] = currentSymbol;
             button.setText(currentSymbol);
             currentSymbol = currentSymbol.equals("X") ? "O" : "X";
-            checkFinish(rowIndex, columnIndex,button);
+            checkFinish(rowIndex, columnIndex, button);
         }
+    }
+
+    private void winWindow() {
+        Stage winWindow = new Stage();
+        winWindow.initModality(Modality.APPLICATION_MODAL);
+        winWindow.setTitle("Won");
+
+        Label label = new Label("Congratulations! You won!");
+        label.setStyle("-fx-font-size: 24px;");
+        Button reapetButton = new Button("Again");
+        Button exitButton = new Button("Exit");
+        exitButton.setOnAction(e -> winWindow.close());
+
+        VBox winWindowContent = new VBox(20);
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(reapetButton, exitButton);
+        winWindowContent.getChildren().addAll(label, buttons);
+        winWindowContent.setAlignment(javafx.geometry.Pos.CENTER);
+        buttons.setAlignment(javafx.geometry.Pos.CENTER);
+
+        Scene dialogScene = new Scene(winWindowContent, 300, 150);
+        winWindow.setScene(dialogScene);
+
+        winWindow.showAndWait();
     }
 
     private void checkFinish(Integer row, Integer column, Button btn) {
         if (this.gameField[row] != null) {
             if (checkRow(row)) {
-                if (winLine != null) renderWinLine(btn, row, null);
+                if (winLine != null) {
+                    renderWinLine(btn, row, null);
+                    winWindow();
+                }
             } else if (checkColumn(column)) {
-                if (winLine != null) renderWinLine(btn, null, column);
+                if (winLine != null){
+                    renderWinLine(btn, null, column);
+                    winWindow();
+                }
             } else if (checkDiagonalRight() || checkDiagonalLeft()) {
-                if (winLine != null) winLine.setOpacity(1.0);
+                if (winLine != null) {
+                    winLine.setOpacity(1.0);
+                    winWindow();
+                }
             }
         }
     }

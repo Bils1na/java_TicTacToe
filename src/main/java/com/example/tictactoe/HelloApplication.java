@@ -13,7 +13,6 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 392, 393);
 
-
         stage.setTitle("TicTacToe");
         stage.setScene(scene);
         stage.setResizable(false);
