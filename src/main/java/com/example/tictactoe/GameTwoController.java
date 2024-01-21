@@ -51,11 +51,10 @@ public class GameTwoController {
         Button repeatButton = new Button("Again");
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(e ->  {
-
             FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu-view.fxml"));
             Stage stage = (Stage) gameFieldUI.getScene().getWindow();
             try {
-                stage.setScene(new Scene(menuLoader.load(), 392, 393));
+                stage.setScene(new Scene(menuLoader.load(), Config.getX(), Config.getY()));
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
@@ -89,7 +88,13 @@ public class GameTwoController {
         Button repeatButton = new Button("Again");
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(e ->  {
-            repeat();
+            FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu-view.fxml"));
+            Stage stage = (Stage) gameFieldUI.getScene().getWindow();
+            try {
+                stage.setScene(new Scene(menuLoader.load(), Config.getX(), Config.getY()));
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
             drawWindow.close();
         });
         repeatButton.setOnAction(e -> {

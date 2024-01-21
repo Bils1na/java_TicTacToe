@@ -21,9 +21,8 @@ public class MenuController {
     void btnOnePlay(ActionEvent event) {
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game1-view.fxml"));
         Stage stage = (Stage) playButton.getScene().getWindow();
-        Config.setPlayer(false);
         try {
-            stage.setScene(new Scene(gameLoader.load(), 392, 393));
+            stage.setScene(new Scene(gameLoader.load(), Config.getX(), Config.getY()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,9 +32,8 @@ public class MenuController {
     void btnTwoPlay(ActionEvent event) {
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game2-view.fxml"));
         Stage stage = (Stage) multiplayButton.getScene().getWindow();
-        Config.setPlayer(true);
         try {
-            stage.setScene(new Scene(gameLoader.load(), 392, 393));
+            stage.setScene(new Scene(gameLoader.load(), Config.getX(), Config.getY()));
         } catch (IOException e) {
             e.printStackTrace();
         }

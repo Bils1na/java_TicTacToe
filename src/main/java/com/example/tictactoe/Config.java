@@ -1,13 +1,14 @@
 package com.example.tictactoe;
 
 public class Config {
-    private static boolean isPlayer;
+    private static final Integer x = 392, y = 393;
 
-    public static boolean isPlayer() {
-        return isPlayer;
+    public static Integer getX() {
+        return x;
     }
 
-    public static void setPlayer(boolean player) {
-        isPlayer = player;
+    public static Integer getY() {
+        return y;
     }
+
 }
