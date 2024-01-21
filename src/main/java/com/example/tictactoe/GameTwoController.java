@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class TicTacToeController {
+public class GameTwoController {
 
     private String currentSymbol = "X";
     private String[][] gameField = new String[3][3];

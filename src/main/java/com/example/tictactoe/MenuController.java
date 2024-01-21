@@ -19,7 +19,7 @@ public class MenuController {
 
     @FXML
     void btnOnePlay(ActionEvent event) {
-        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game1-view.fxml"));
         Stage stage = (Stage) playButton.getScene().getWindow();
         Config.setPlayer(false);
         try {
@@ -31,7 +31,7 @@ public class MenuController {
 
     @FXML
     void btnTwoPlay(ActionEvent event) {
-        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game2-view.fxml"));
         Stage stage = (Stage) multiplayButton.getScene().getWindow();
         Config.setPlayer(true);
         try {
