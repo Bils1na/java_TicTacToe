@@ -15,10 +15,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class GameOneController {
-    private String currentSymbol = "X";
+    private final String playerSymbol = "X", computerSymbol = "O";
     private String[][] gameField = new String[3][3];
+    private final Random rnd = new Random();
+    private boolean isPlayed = true;
 
     @FXML
     private Line winLine = new Line();
@@ -28,16 +31,51 @@ public class GameOneController {
 
     @FXML
     void btnClick(ActionEvent event) {
+        isPlayed = true;
         Button button = ((Button)event.getSource());
 
         Integer rowIndex = GridPane.getRowIndex(button) == null ? 0 : GridPane.getRowIndex(button);
         Integer columnIndex = GridPane.getColumnIndex(button) == null ? 0 : GridPane.getColumnIndex(button);
         if (gameField[rowIndex][columnIndex] == null) {
-            gameField[rowIndex][columnIndex] = currentSymbol;
-            button.setText(currentSymbol);
-            currentSymbol = currentSymbol.equals("X") ? "O" : "X";
+            gameField[rowIndex][columnIndex] = playerSymbol;
+            button.setText(playerSymbol);
             checkFinish(rowIndex, columnIndex);
+            if (isPlayed) computerTurn();
         }
+    }
+
+    private void computerTurn() {
+        while (true) {
+            int computerRow = rnd.nextInt(3);
+            int computerCol = rnd.nextInt(3);
+            System.out.println(computerRow);
+            System.out.println(computerCol);
+            for (Node node : gameFieldUI.getChildren()) {
+                Button btn = (Button) node;
+                int rowIndex = GridPane.getRowIndex(btn) == null ? 0 : GridPane.getRowIndex(btn);
+                int columnIndex = GridPane.getColumnIndex(btn) == null ? 0 : GridPane.getColumnIndex(btn);
+                if (rowIndex == computerRow && columnIndex == computerCol && btn.getText().isEmpty()) {
+                    btn.setText(computerSymbol);
+                    gameField[computerRow][computerCol] = computerSymbol;
+                    checkFinish(computerRow, computerCol);
+                    return;
+                } else if (isFull()) {
+                    return;
+                }
+            }
+        }
+    }
+
+    private boolean isFull() {
+        boolean isFull = true;
+        for (Node node : gameFieldUI.getChildren()) {
+            Button btn = (Button) node;
+            if (btn.getText().isEmpty()) {
+                isFull = false;
+                return isFull;
+            }
+        }
+        return isFull;
     }
 
     private void winWindow() {
@@ -126,16 +164,19 @@ public class GameOneController {
         if (this.gameField[row] != null) {
             if (checkRow(row)) {
                 if (winLine != null) {
+                    isPlayed = false;
                     renderWinLine(row, null);
                     winWindow();
                 }
             } else if (checkColumn(column)) {
                 if (winLine != null){
+                    isPlayed = false;
                     renderWinLine(null, column);
                     winWindow();
                 }
             } else if (checkDiagonalRight() || checkDiagonalLeft()) {
                 if (winLine != null) {
+                    isPlayed = false;
                     winLine.setOpacity(1.0);
                     winWindow();
                 }
@@ -152,16 +193,17 @@ public class GameOneController {
             }
         }
         if (isGame) {
+            isPlayed = false;
             repeat();
             drawWindow();
         }
     }
 
     private boolean checkRow(Integer row) {
-        boolean isWin = true;
-        for (int i = 0; i < gameField[row].length; i++) {
-            if (gameField[row][i] == null || !checkSymbolsInRow(gameField[row][i], row)) {
-                isWin = false;
+        boolean isWin = false;
+        for (int j = 0; j < gameField[row].length; j++) {
+            if (gameField[row][j] != null && checkSymbolsInRow(gameField[row][j], row)) {
+                isWin = true;
                 return isWin;
             }
         }
