@@ -17,12 +17,12 @@
       </Label>
       <VBox alignment="TOP_CENTER" layoutX="131.0" layoutY="89.0" prefHeight="216.0" prefWidth="131.0">
          <children>
-            <Button fx:id="playButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnPlay" prefHeight="40.0" prefWidth="133.0" text="Play" textAlignment="CENTER">
+            <Button fx:id="playButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnOnePlay" prefHeight="40.0" prefWidth="133.0" text="One Player" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="18.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="133.0" text="Multiplay" textAlignment="CENTER">
+            <Button fx:id="multiplayButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnTwoPlay" prefHeight="40.0" prefWidth="133.0" text="Two Players" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="18.0" />
                </VBox.margin>
@@ -32,7 +32,7 @@
                   <Insets bottom="18.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="133.0" text="Exit" textAlignment="CENTER" />
+            <Button fx:id="exitButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnExit" prefHeight="40.0" prefWidth="133.0" text="Exit" textAlignment="CENTER" />
          </children>
       </VBox>
    </children>
