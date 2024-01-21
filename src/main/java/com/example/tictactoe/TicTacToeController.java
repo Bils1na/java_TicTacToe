@@ -2,6 +2,7 @@ package com.example.tictactoe;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class TicTacToeController {
 
@@ -48,7 +51,14 @@ public class TicTacToeController {
         Button repeatButton = new Button("Again");
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(e ->  {
-            repeat();
+
+            FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu-view.fxml"));
+            Stage stage = (Stage) gameFieldUI.getScene().getWindow();
+            try {
+                stage.setScene(new Scene(menuLoader.load(), 392, 393));
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
             winWindow.close();
         });
         repeatButton.setOnAction(e -> {

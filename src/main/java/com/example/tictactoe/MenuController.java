@@ -17,7 +17,7 @@ public class MenuController {
 
     @FXML
     void btnPlay(ActionEvent event) {
-        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("ticTacToe-view.fxml"));
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
         Stage stage = (Stage) playButton.getScene().getWindow();
         try {
             stage.setScene(new Scene(gameLoader.load(), 392, 393));
