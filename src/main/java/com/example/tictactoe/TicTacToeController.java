@@ -13,7 +13,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class HelloController {
+public class TicTacToeController {
 
     private String currentSymbol = "X";
     private String[][] gameField = new String[3][3];
