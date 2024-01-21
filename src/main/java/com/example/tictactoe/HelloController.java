@@ -44,10 +44,13 @@ public class HelloController {
         winWindow.setTitle("Won");
 
         Label label = new Label("Congratulations! You won!");
-        label.setStyle("-fx-font-size: 24px;");
+        label.setStyle("-fx-font-size: 20px;");
         Button repeatButton = new Button("Again");
         Button exitButton = new Button("Exit");
-        exitButton.setOnAction(e -> winWindow.close());
+        exitButton.setOnAction(e ->  {
+            repeat();
+            winWindow.close();
+        });
         repeatButton.setOnAction(e -> {
             repeat();
             winWindow.close();
@@ -64,6 +67,37 @@ public class HelloController {
         winWindow.setScene(dialogScene);
 
         winWindow.showAndWait();
+    }
+
+    private void drawWindow() {
+        Stage drawWindow = new Stage();
+        drawWindow.initModality(Modality.APPLICATION_MODAL);
+        drawWindow.setTitle("Draw");
+
+        Label label = new Label("It's draw!\nDo you want to try again?");
+        label.setStyle("-fx-font-size: 20px;");
+        Button repeatButton = new Button("Again");
+        Button exitButton = new Button("Exit");
+        exitButton.setOnAction(e ->  {
+            repeat();
+            drawWindow.close();
+        });
+        repeatButton.setOnAction(e -> {
+            repeat();
+            drawWindow.close();
+        });
+
+        VBox drawWindowContent = new VBox(20);
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(repeatButton, exitButton);
+        drawWindowContent.getChildren().addAll(label, buttons);
+        drawWindowContent.setAlignment(javafx.geometry.Pos.CENTER);
+        buttons.setAlignment(javafx.geometry.Pos.CENTER);
+
+        Scene dialogScene = new Scene(drawWindowContent, 300, 150);
+        drawWindow.setScene(dialogScene);
+
+        drawWindow.showAndWait();
     }
 
     private void repeat() {
@@ -100,12 +134,12 @@ public class HelloController {
         boolean isGame = true;
         for (Node node: gameFieldUI.getChildren()) {
             if (((Button) node).getText().isEmpty()) {
-                System.out.println(((Button)node).getText());
                 isGame = false;
             }
         }
         if (isGame) {
             repeat();
+            drawWindow();
         }
     }
 
