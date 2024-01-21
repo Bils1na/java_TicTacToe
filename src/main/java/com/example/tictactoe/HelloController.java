@@ -34,7 +34,7 @@ public class HelloController {
             gameField[rowIndex][columnIndex] = currentSymbol;
             button.setText(currentSymbol);
             currentSymbol = currentSymbol.equals("X") ? "O" : "X";
-            checkFinish(rowIndex, columnIndex, button);
+            checkFinish(rowIndex, columnIndex);
         }
     }
 
@@ -108,16 +108,16 @@ public class HelloController {
         setWinLine(0, 0, 0, 0);
     }
 
-    private void checkFinish(Integer row, Integer column, Button btn) {
+    private void checkFinish(Integer row, Integer column) {
         if (this.gameField[row] != null) {
             if (checkRow(row)) {
                 if (winLine != null) {
-                    renderWinLine(btn, row, null);
+                    renderWinLine(row, null);
                     winWindow();
                 }
             } else if (checkColumn(column)) {
                 if (winLine != null){
-                    renderWinLine(btn, null, column);
+                    renderWinLine(null, column);
                     winWindow();
                 }
             } else if (checkDiagonalRight() || checkDiagonalLeft()) {
@@ -220,33 +220,33 @@ public class HelloController {
         winLine.setEndY(eY);
     }
 
-    private void renderWinLine(Button btn, Integer row, Integer column){
+    private void renderWinLine(Integer row, Integer column){
         double sX = 0, sY = 0, eX = 0, eY = 0;
         if (row != null) {
-            for (Node node : btn.getParent().getChildrenUnmodifiable()) {
+            for (Node node : gameFieldUI.getChildren()) {
                 int rowNode = GridPane.getRowIndex(node) == null ? 0 : GridPane.getRowIndex(node);
                 int colNode = GridPane.getColumnIndex(node) == null ? 0 : GridPane.getColumnIndex(node);
                 if (rowNode == row && colNode == 0) {
                     sX = node.localToParent(0, 0).getX();
-                    sY = node.localToParent(0, 0).getY() + btn.getHeight() / 2;
+                    sY = node.localToParent(0, 0).getY() + ((Button)node).getHeight() / 2;
                 }
                 if (rowNode == row && colNode == gameField.length - 1) {
-                    eX = node.localToParent(0, 0).getX() + btn.getWidth();
-                    eY = node.localToParent(0, 0).getY() + btn.getHeight() / 2;
+                    eX = node.localToParent(0, 0).getX() + ((Button)node).getWidth();
+                    eY = node.localToParent(0, 0).getY() + ((Button)node).getHeight() / 2;
                 }
             }
             setWinLine(sX, sY, eX, eY);
         } else {
-            for (Node node : btn.getParent().getChildrenUnmodifiable()) {
+            for (Node node : gameFieldUI.getChildren()) {
                 int rowNode = GridPane.getRowIndex(node) == null ? 0 : GridPane.getRowIndex(node);
                 int colNode = GridPane.getColumnIndex(node) == null ? 0 : GridPane.getColumnIndex(node);
                 if (colNode == column && rowNode == 0) {
-                    sX = node.localToParent(0,0).getX() + btn.getWidth() / 2;
+                    sX = node.localToParent(0,0).getX() + ((Button)node).getWidth() / 2;
                     sY = node.localToParent(0, 0).getY();
                 }
                 if (colNode == column && rowNode == gameField.length - 1) {
-                    eX = node.localToParent(0, 0).getX() + btn.getWidth() / 2;
-                    eY = node.localToParent(0, 0).getY() + btn.getHeight();
+                    eX = node.localToParent(0, 0).getX() + ((Button)node).getWidth() / 2;
+                    eY = node.localToParent(0, 0).getY() + ((Button)node).getHeight();
                 }
             }
             setWinLine(sX, sY, eX, eY);
