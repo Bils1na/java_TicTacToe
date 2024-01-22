@@ -23,6 +23,8 @@ public class GameOneController {
     private final Random rnd = new Random();
     private boolean isPlayed = true;
 
+
+
     @FXML
     private Line winLine = new Line();
     @FXML
@@ -164,20 +166,22 @@ public class GameOneController {
         if (this.gameField[row] != null) {
             if (checkRow(row)) {
                 if (winLine != null) {
-                    isPlayed = false;
                     renderWinLine(row, null);
                     winWindow();
                 }
             } else if (checkColumn(column)) {
                 if (winLine != null){
-                    isPlayed = false;
                     renderWinLine(null, column);
                     winWindow();
                 }
-            } else if (checkDiagonalRight() || checkDiagonalLeft()) {
+            } else if (checkDiagonalRight()) {
                 if (winLine != null) {
-                    isPlayed = false;
-                    winLine.setOpacity(1.0);
+                    setWinLine(0, 0, 392, 393);
+                    winWindow();
+                }
+            } else if (checkDiagonalLeft()) {
+                if (winLine != null) {
+                    setWinLine(392, 0, 0, 393);
                     winWindow();
                 }
             }
@@ -246,12 +250,22 @@ public class GameOneController {
     private boolean checkDiagonalRight() {
         boolean isWin = true;
         for (int i = 0; i < gameField.length; i++) {
-            if (gameField[i][i] == null || gameField[i][i].equals("O")) {
+            if (gameField[i][i] == null || !checkSymbolsDiagonalRight(gameField[i][i])) {
                 isWin = false;
                 return isWin;
             }
         }
-        setWinLine(0, 0, 392, 393);
+        return isWin;
+    }
+
+    private boolean checkSymbolsDiagonalRight(String symbol) {
+        boolean isWin = true;
+        for (int i = 0; i < gameField.length; i++) {
+            if (!symbol.equals(gameField[i][i])) {
+                isWin = false;
+                return isWin;
+            }
+        }
         return isWin;
     }
 
@@ -259,12 +273,22 @@ public class GameOneController {
         boolean isWin = true;
         for (int i = 0; i < gameField.length; i++) {
             if (gameField[i][Math.abs(i - (gameField.length - 1))] == null ||
-                    gameField[i][Math.abs(i - (gameField.length - 1))].equals("O")) {
+                    !checkSymbolsDiagonalLeft(gameField[i][Math.abs(i - (gameField.length - 1))])) {
                 isWin = false;
                 return isWin;
             }
         }
-        setWinLine(392, 0, 0, 393);
+        return isWin;
+    }
+
+    private boolean checkSymbolsDiagonalLeft(String symbol) {
+        boolean isWin = true;
+        for (int i = 0; i < gameField.length; i++) {
+            if (!symbol.equals(gameField[i][Math.abs(i - (gameField.length - 1))])) {
+                isWin = false;
+                return isWin;
+            }
+        }
         return isWin;
     }
 
