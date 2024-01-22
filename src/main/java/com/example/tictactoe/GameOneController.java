@@ -57,6 +57,12 @@ public class GameOneController {
                 int columnIndex = GridPane.getColumnIndex(btn) == null ? 0 : GridPane.getColumnIndex(btn);
                 if (isFull()) {
                     return;
+                }  else if (rowIndex == computerRow && columnIndex == computerCol && checkCellRow(rowIndex)) {
+                    System.out.println("ok");
+                    btn.setText(computerSymbol);
+                    gameField[computerRow][computerCol] = computerSymbol;
+                    checkFinish(computerRow, computerCol);
+                    return;
                 } else if (rowIndex == computerRow && columnIndex == computerCol && btn.getText().isEmpty()) {
                     btn.setText(computerSymbol);
                     gameField[computerRow][computerCol] = computerSymbol;
@@ -65,6 +71,17 @@ public class GameOneController {
                 }
             }
         }
+    }
+
+    private boolean checkCellRow(Integer row) {
+        boolean isWin = false;
+        for (int i = 0; i < gameField[row].length; i++) {
+            if (gameField[row][i] == null) {
+                isWin = true;
+                return isWin;
+            }
+        }
+        return isWin;
     }
 
     private boolean isFull() {
