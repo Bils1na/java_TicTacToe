@@ -42,46 +42,126 @@ public class GameOneController {
             gameField[rowIndex][columnIndex] = playerSymbol;
             button.setText(playerSymbol);
             checkFinish(rowIndex, columnIndex);
-            if (isPlayed) computerTurn();
+            if (isPlayed) {
+                    computerTurn();
+            }
         }
+    }
+
+    private boolean checkEnemyWinRow(Integer row) {
+        Integer rowNull = row == 0 ? null : row;
+        if ((gameField[row][0] != null && gameField[row][1] != null)
+                && (gameField[row][0].equals(playerSymbol) && gameField[row][1].equals(playerSymbol))
+                && gameField[row][2] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getColumnIndex(node) != null
+                        && (GridPane.getRowIndex(node) == rowNull && GridPane.getColumnIndex(node) == 2)) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[row][2] = computerSymbol;
+            checkFinish(row, 2);
+            return true;
+        } else if ((gameField[row][1] != null && gameField[row][2] != null)
+                && (gameField[row][1].equals(playerSymbol) && gameField[row][2].equals(playerSymbol))
+                && gameField[row][0] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getColumnIndex(node) == null && GridPane.getRowIndex(node) == rowNull) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[row][0] = computerSymbol;
+            checkFinish(row, 0);
+            return true;
+        } else if ((gameField[row][0] != null && gameField[row][2] != null)
+                && (gameField[row][0].equals(playerSymbol) && gameField[row][2].equals(playerSymbol))
+                && gameField[row][1] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getColumnIndex(node) != null
+                && GridPane.getColumnIndex(node) == 1 && GridPane.getRowIndex(node) == rowNull) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[row][1] = computerSymbol;
+            checkFinish(row, 1);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkEnemyWinColumn(Integer column) {
+        Integer columnNull = column == 0 ? null : column;
+        if ((gameField[0][column] != null && gameField[1][column] != null)
+                && (gameField[0][column].equals(playerSymbol) && gameField[1][column].equals(playerSymbol))
+                && gameField[2][column] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null
+                        && (GridPane.getRowIndex(node) == 2 && GridPane.getColumnIndex(node) == columnNull)) {
+                    ((Button) node).setText(computerSymbol);
+                    System.out.println(GridPane.getColumnIndex(node));
+                    System.out.println(GridPane.getRowIndex(node));
+                }
+            }
+            gameField[2][column] = computerSymbol;
+            checkFinish(2, column);
+            return true;
+
+        } else if ((gameField[1][column] != null && gameField[2][column] != null)
+                && (gameField[1][column].equals(playerSymbol) && gameField[2][column].equals(playerSymbol))
+                && gameField[0][column] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getColumnIndex(node) == columnNull && GridPane.getRowIndex(node) == null) {
+                    ((Button) node).setText(computerSymbol);
+                    System.out.println(GridPane.getColumnIndex(node));
+                    System.out.println(GridPane.getRowIndex(node));
+                }
+            }
+            gameField[0][column] = computerSymbol;
+            checkFinish(0, column);
+            return true;
+        }  else if ((gameField[0][column] != null && gameField[2][column] != null)
+                && (gameField[0][column].equals(playerSymbol) && gameField[2][column].equals(playerSymbol))
+                && gameField[1][column] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null
+                        && GridPane.getColumnIndex(node) == columnNull && GridPane.getRowIndex(node) == 1) {
+                    ((Button) node).setText(computerSymbol);
+                    System.out.println(GridPane.getColumnIndex(node));
+                    System.out.println(GridPane.getRowIndex(node));
+                }
+            }
+            gameField[1][column] = computerSymbol;
+            checkFinish(1, column);
+            return true;
+        }
+        return false;
     }
 
     private void computerTurn() {
-        while (true) {
-            int computerRow = rnd.nextInt(3);
-            int computerCol = rnd.nextInt(3);
+        if (checkEnemyWinRow(0) || checkEnemyWinRow(1) || checkEnemyWinRow(2)) {
 
-            for (Node node : gameFieldUI.getChildren()) {
-                Button btn = (Button) node;
-                int rowIndex = GridPane.getRowIndex(btn) == null ? 0 : GridPane.getRowIndex(btn);
-                int columnIndex = GridPane.getColumnIndex(btn) == null ? 0 : GridPane.getColumnIndex(btn);
-                if (isFull()) {
-                    return;
-                }  else if (rowIndex == computerRow && columnIndex == computerCol && checkCellRow(rowIndex)) {
-                    System.out.println("ok");
-                    btn.setText(computerSymbol);
-                    gameField[computerRow][computerCol] = computerSymbol;
-                    checkFinish(computerRow, computerCol);
-                    return;
-                } else if (rowIndex == computerRow && columnIndex == computerCol && btn.getText().isEmpty()) {
-                    btn.setText(computerSymbol);
-                    gameField[computerRow][computerCol] = computerSymbol;
-                    checkFinish(computerRow, computerCol);
-                    return;
+        } else if (checkEnemyWinColumn(0) || checkEnemyWinColumn(1) || checkEnemyWinColumn(2)){
+
+        } else {
+            while (true) {
+                int computerRow = rnd.nextInt(3);
+                int computerCol = rnd.nextInt(3);
+
+                for (Node node : gameFieldUI.getChildren()) {
+                    Button btn = (Button) node;
+                    int rowIndex = GridPane.getRowIndex(btn) == null ? 0 : GridPane.getRowIndex(btn);
+                    int columnIndex = GridPane.getColumnIndex(btn) == null ? 0 : GridPane.getColumnIndex(btn);
+                    if (isFull()) {
+                        return;
+                    } else if (rowIndex == computerRow && columnIndex == computerCol && btn.getText().isEmpty()) {
+                        btn.setText(computerSymbol);
+                        gameField[computerRow][computerCol] = computerSymbol;
+                        checkFinish(computerRow, computerCol);
+                        return;
+                    }
                 }
             }
         }
-    }
-
-    private boolean checkCellRow(Integer row) {
-        boolean isWin = false;
-        for (int i = 0; i < gameField[row].length; i++) {
-            if (gameField[row][i] == null) {
-                isWin = true;
-                return isWin;
-            }
-        }
-        return isWin;
     }
 
     private boolean isFull() {
