@@ -15,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Random;
 
 public class GameOneController {
@@ -47,6 +48,8 @@ public class GameOneController {
             }
         }
     }
+
+
 
     private boolean checkEnemyWinRow(Integer row) {
         Integer rowNull = row == 0 ? null : row;
@@ -405,22 +408,22 @@ public class GameOneController {
                 Button btn = (Button) node;
                 int rowIndex = GridPane.getRowIndex(btn) == null ? 0 : GridPane.getRowIndex(btn);
                 int columnIndex = GridPane.getColumnIndex(btn) == null ? 0 : GridPane.getColumnIndex(btn);
-                if (rowIndex == 0 && columnIndex == 0 && btn.getText() == "") {
+                if (rowIndex == 0 && columnIndex == 0 && Objects.equals(btn.getText(), "")) {
                     btn.setText(computerSymbol);
                     gameField[0][0] = computerSymbol;
                     checkFinish(0, 0);
                     return;
-                } else if (rowIndex == 0 && columnIndex == 2 && btn.getText() == "") {
+                } else if (rowIndex == 0 && columnIndex == 2 && Objects.equals(btn.getText(), "")) {
                     btn.setText(computerSymbol);
                     gameField[0][2] = computerSymbol;
                     checkFinish(0, 2);
                     return;
-                } else if (rowIndex == 2 && columnIndex == 0 && btn.getText() == "") {
+                } else if (rowIndex == 2 && columnIndex == 0 && Objects.equals(btn.getText(), "")) {
                     btn.setText(computerSymbol);
                     gameField[2][0] = computerSymbol;
                     checkFinish(2, 0);
                     return;
-                } else if (rowIndex == 2 && columnIndex == 2 && btn.getText() == "") {
+                } else if (rowIndex == 2 && columnIndex == 2 && Objects.equals(btn.getText(), "")) {
                     btn.setText(computerSymbol);
                     gameField[2][2] = computerSymbol;
                     checkFinish(2, 2);
@@ -468,10 +471,10 @@ public class GameOneController {
             Button btn = (Button) node;
             int rowIndex = GridPane.getRowIndex(btn) == null ? 0 : GridPane.getRowIndex(btn);
             int columnIndex = GridPane.getColumnIndex(btn) == null ? 0 : GridPane.getColumnIndex(btn);
-            if (rowIndex == 0 && columnIndex == 0  && btn.getText() == ""
-                    || rowIndex == 0 && columnIndex == 2 && btn.getText() == ""
-                    || rowIndex == 2 && columnIndex == 0 && btn.getText() == ""
-                    || rowIndex == 2 && columnIndex == 2 && btn.getText() == "") {
+            if (rowIndex == 0 && columnIndex == 0  && Objects.equals(btn.getText(), "")
+                    || rowIndex == 0 && columnIndex == 2 && Objects.equals(btn.getText(), "")
+                    || rowIndex == 2 && columnIndex == 0 && Objects.equals(btn.getText(), "")
+                    || rowIndex == 2 && columnIndex == 2 && Objects.equals(btn.getText(), "")) {
                 isCleanCell = true;
                 return isCleanCell;
             }
@@ -529,9 +532,9 @@ public class GameOneController {
     }
 
     private void loseWindow() {
-        Stage winWindow = new Stage();
-        winWindow.initModality(Modality.APPLICATION_MODAL);
-        winWindow.setTitle("Lose");
+        Stage loseWindow = new Stage();
+        loseWindow.initModality(Modality.APPLICATION_MODAL);
+        loseWindow.setTitle("Lose");
 
         Label label = new Label("You lose!");
         label.setStyle("-fx-font-size: 20px;");
@@ -545,24 +548,24 @@ public class GameOneController {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
-            winWindow.close();
+            loseWindow.close();
         });
         repeatButton.setOnAction(e -> {
             repeat();
-            winWindow.close();
+            loseWindow.close();
         });
 
-        VBox winWindowContent = new VBox(20);
+        VBox loseWindowContent = new VBox(20);
         HBox buttons = new HBox();
         buttons.getChildren().addAll(repeatButton, exitButton);
-        winWindowContent.getChildren().addAll(label, buttons);
-        winWindowContent.setAlignment(javafx.geometry.Pos.CENTER);
+        loseWindowContent.getChildren().addAll(label, buttons);
+        loseWindowContent.setAlignment(javafx.geometry.Pos.CENTER);
         buttons.setAlignment(javafx.geometry.Pos.CENTER);
 
-        Scene dialogScene = new Scene(winWindowContent, 300, 150);
-        winWindow.setScene(dialogScene);
+        Scene dialogScene = new Scene(loseWindowContent, 300, 150);
+        loseWindow.setScene(dialogScene);
 
-        winWindow.showAndWait();
+        loseWindow.showAndWait();
     }
 
     private void drawWindow() {
