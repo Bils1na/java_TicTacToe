@@ -401,7 +401,6 @@ public class GameOneController {
                 }
             }
         } else if (isCleanDiagonalCell()) {
-            System.out.println("ok2");
             for (Node node : gameFieldUI.getChildren()) {
                 Button btn = (Button) node;
                 int rowIndex = GridPane.getRowIndex(btn) == null ? 0 : GridPane.getRowIndex(btn);
@@ -529,6 +528,43 @@ public class GameOneController {
         winWindow.showAndWait();
     }
 
+    private void loseWindow() {
+        Stage winWindow = new Stage();
+        winWindow.initModality(Modality.APPLICATION_MODAL);
+        winWindow.setTitle("Lose");
+
+        Label label = new Label("You lose!");
+        label.setStyle("-fx-font-size: 20px;");
+        Button repeatButton = new Button("Again");
+        Button exitButton = new Button("Exit");
+        exitButton.setOnAction(e ->  {
+            FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu-view.fxml"));
+            Stage stage = (Stage) gameFieldUI.getScene().getWindow();
+            try {
+                stage.setScene(new Scene(menuLoader.load(), Config.getX(), Config.getY()));
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+            winWindow.close();
+        });
+        repeatButton.setOnAction(e -> {
+            repeat();
+            winWindow.close();
+        });
+
+        VBox winWindowContent = new VBox(20);
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(repeatButton, exitButton);
+        winWindowContent.getChildren().addAll(label, buttons);
+        winWindowContent.setAlignment(javafx.geometry.Pos.CENTER);
+        buttons.setAlignment(javafx.geometry.Pos.CENTER);
+
+        Scene dialogScene = new Scene(winWindowContent, 300, 150);
+        winWindow.setScene(dialogScene);
+
+        winWindow.showAndWait();
+    }
+
     private void drawWindow() {
         Stage drawWindow = new Stage();
         drawWindow.initModality(Modality.APPLICATION_MODAL);
@@ -580,25 +616,41 @@ public class GameOneController {
                 if (winLine != null) {
                     isPlayed = false;
                     renderWinLine(row, null, null);
-                    winWindow();
+                    if (gameField[row][0].equals("X")) {
+                        winWindow();
+                    } else {
+                        loseWindow();
+                    }
                 }
             } else if (checkColumn(column)) {
                 if (winLine != null){
                     isPlayed = false;
                     renderWinLine(null, column, null);
-                    winWindow();
+                    if (gameField[0][column].equals("X")) {
+                        winWindow();
+                    } else {
+                        loseWindow();
+                    }
                 }
             } else if (checkDiagonalRight()) {
                 if (winLine != null) {
                     isPlayed = false;
                     renderWinLine(null, null, true);
-                    winWindow();
+                    if (gameField[0][0].equals("X")) {
+                        winWindow();
+                    } else {
+                        loseWindow();
+                    }
                 }
             } else if (checkDiagonalLeft()) {
                 if (winLine != null) {
                     isPlayed = false;
                     renderWinLine(null, null, false);
-                    winWindow();
+                    if (gameField[2][0].equals("X")) {
+                        winWindow();
+                    } else {
+                        loseWindow();
+                    }
                 }
             }
         }
