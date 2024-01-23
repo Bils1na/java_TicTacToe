@@ -96,7 +96,7 @@ public class GameOneController {
                 && gameField[2][column] == null) {
             for (Node node : gameFieldUI.getChildren()) {
                 if (GridPane.getRowIndex(node) != null
-                        && (GridPane.getRowIndex(node) == 2 && GridPane.getColumnIndex(node) == columnNull)) {
+                        && (GridPane.getRowIndex(node) == 2 && Objects.equals(GridPane.getColumnIndex(node), columnNull))) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
@@ -108,7 +108,7 @@ public class GameOneController {
                 && (gameField[1][column].equals(playerSymbol) && gameField[2][column].equals(playerSymbol))
                 && gameField[0][column] == null) {
             for (Node node : gameFieldUI.getChildren()) {
-                if (GridPane.getColumnIndex(node) == columnNull && GridPane.getRowIndex(node) == null) {
+                if (Objects.equals(GridPane.getColumnIndex(node), columnNull) && GridPane.getRowIndex(node) == null) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
@@ -120,7 +120,7 @@ public class GameOneController {
                 && gameField[1][column] == null) {
             for (Node node : gameFieldUI.getChildren()) {
                 if (GridPane.getRowIndex(node) != null
-                        && GridPane.getColumnIndex(node) == columnNull && GridPane.getRowIndex(node) == 1) {
+                        && Objects.equals(GridPane.getColumnIndex(node), columnNull) && GridPane.getRowIndex(node) == 1) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
@@ -219,7 +219,7 @@ public class GameOneController {
                 && gameField[row][2] == null) {
             for (Node node : gameFieldUI.getChildren()) {
                 if (GridPane.getColumnIndex(node) != null
-                        && (GridPane.getRowIndex(node) == rowNull && GridPane.getColumnIndex(node) == 2)) {
+                        && (Objects.equals(GridPane.getRowIndex(node), rowNull) && GridPane.getColumnIndex(node) == 2)) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
@@ -230,7 +230,7 @@ public class GameOneController {
                 && (gameField[row][1].equals(computerSymbol) && gameField[row][2].equals(computerSymbol))
                 && gameField[row][0] == null) {
             for (Node node : gameFieldUI.getChildren()) {
-                if (GridPane.getColumnIndex(node) == null && GridPane.getRowIndex(node) == rowNull) {
+                if (GridPane.getColumnIndex(node) == null && Objects.equals(GridPane.getRowIndex(node), rowNull)) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
@@ -242,7 +242,7 @@ public class GameOneController {
                 && gameField[row][1] == null) {
             for (Node node : gameFieldUI.getChildren()) {
                 if (GridPane.getColumnIndex(node) != null
-                        && GridPane.getColumnIndex(node) == 1 && GridPane.getRowIndex(node) == rowNull) {
+                        && GridPane.getColumnIndex(node) == 1 && Objects.equals(GridPane.getRowIndex(node), rowNull)) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
@@ -260,7 +260,7 @@ public class GameOneController {
                 && gameField[2][column] == null) {
             for (Node node : gameFieldUI.getChildren()) {
                 if (GridPane.getRowIndex(node) != null
-                        && (GridPane.getRowIndex(node) == 2 && GridPane.getColumnIndex(node) == columnNull)) {
+                        && (GridPane.getRowIndex(node) == 2 && Objects.equals(GridPane.getColumnIndex(node), columnNull))) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
@@ -272,7 +272,7 @@ public class GameOneController {
                 && (gameField[1][column].equals(computerSymbol) && gameField[2][column].equals(computerSymbol))
                 && gameField[0][column] == null) {
             for (Node node : gameFieldUI.getChildren()) {
-                if (GridPane.getColumnIndex(node) == columnNull && GridPane.getRowIndex(node) == null) {
+                if (Objects.equals(GridPane.getColumnIndex(node), columnNull) && GridPane.getRowIndex(node) == null) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
@@ -284,7 +284,7 @@ public class GameOneController {
                 && gameField[1][column] == null) {
             for (Node node : gameFieldUI.getChildren()) {
                 if (GridPane.getRowIndex(node) != null
-                        && GridPane.getColumnIndex(node) == columnNull && GridPane.getRowIndex(node) == 1) {
+                        && Objects.equals(GridPane.getColumnIndex(node), columnNull) && GridPane.getRowIndex(node) == 1) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
