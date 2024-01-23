@@ -212,13 +212,222 @@ public class GameOneController {
         return false;
     }
 
+    private boolean checkOwnWinRow(Integer row) {
+        Integer rowNull = row == 0 ? null : row;
+        if ((gameField[row][0] != null && gameField[row][1] != null)
+                && (gameField[row][0].equals(computerSymbol) && gameField[row][1].equals(computerSymbol))
+                && gameField[row][2] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getColumnIndex(node) != null
+                        && (GridPane.getRowIndex(node) == rowNull && GridPane.getColumnIndex(node) == 2)) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[row][2] = computerSymbol;
+            checkFinish(row, 2);
+            return true;
+        } else if ((gameField[row][1] != null && gameField[row][2] != null)
+                && (gameField[row][1].equals(computerSymbol) && gameField[row][2].equals(computerSymbol))
+                && gameField[row][0] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getColumnIndex(node) == null && GridPane.getRowIndex(node) == rowNull) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[row][0] = computerSymbol;
+            checkFinish(row, 0);
+            return true;
+        } else if ((gameField[row][0] != null && gameField[row][2] != null)
+                && (gameField[row][0].equals(computerSymbol) && gameField[row][2].equals(computerSymbol))
+                && gameField[row][1] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getColumnIndex(node) != null
+                        && GridPane.getColumnIndex(node) == 1 && GridPane.getRowIndex(node) == rowNull) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[row][1] = computerSymbol;
+            checkFinish(row, 1);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkOwnWinColumn(Integer column) {
+        Integer columnNull = column == 0 ? null : column;
+        if ((gameField[0][column] != null && gameField[1][column] != null)
+                && (gameField[0][column].equals(computerSymbol) && gameField[1][column].equals(computerSymbol))
+                && gameField[2][column] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null
+                        && (GridPane.getRowIndex(node) == 2 && GridPane.getColumnIndex(node) == columnNull)) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[2][column] = computerSymbol;
+            checkFinish(2, column);
+            return true;
+
+        } else if ((gameField[1][column] != null && gameField[2][column] != null)
+                && (gameField[1][column].equals(computerSymbol) && gameField[2][column].equals(computerSymbol))
+                && gameField[0][column] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getColumnIndex(node) == columnNull && GridPane.getRowIndex(node) == null) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[0][column] = computerSymbol;
+            checkFinish(0, column);
+            return true;
+        }  else if ((gameField[0][column] != null && gameField[2][column] != null)
+                && (gameField[0][column].equals(computerSymbol) && gameField[2][column].equals(computerSymbol))
+                && gameField[1][column] == null) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null
+                        && GridPane.getColumnIndex(node) == columnNull && GridPane.getRowIndex(node) == 1) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[1][column] = computerSymbol;
+            checkFinish(1, column);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkOwnWinDiagonalRight() {
+        if (((gameField[0][0] != null && gameField[1][1] != null)
+                && (gameField[0][0].equals(computerSymbol) && gameField[1][1].equals(computerSymbol)
+                && gameField[2][2] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null
+                        && GridPane.getRowIndex(node) == 2 && GridPane.getColumnIndex(node) == 2) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[2][2] = computerSymbol;
+            checkFinish(2, 2);
+            return true;
+        } else if (((gameField[0][0] != null && gameField[2][2] != null)
+                && (gameField[0][0].equals(computerSymbol) && gameField[2][2].equals(computerSymbol)
+                && gameField[1][1] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null
+                        && GridPane.getRowIndex(node) == 1 && GridPane.getColumnIndex(node) == 1) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[1][1] = computerSymbol;
+            checkFinish(1, 1);
+            return true;
+        } else if (((gameField[1][1] != null && gameField[2][2] != null)
+                && (gameField[1][1].equals(computerSymbol) && gameField[2][2].equals(computerSymbol)
+                && gameField[0][0] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) == null && GridPane.getColumnIndex(node) == null) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[0][0] = computerSymbol;
+            checkFinish( 0, 0);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkOwnWinDiagonalLeft() {
+        if (((gameField[2][0] != null && gameField[0][2] != null)
+                && (gameField[2][0].equals(computerSymbol) && gameField[0][2].equals(computerSymbol)
+                && gameField[1][1] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null
+                        && GridPane.getRowIndex(node) == 1 && GridPane.getColumnIndex(node) == 1) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[1][1] = computerSymbol;
+            checkFinish(1, 1);
+            return true;
+        } else if (((gameField[2][0] != null && gameField[1][1] != null)
+                && (gameField[2][0].equals(computerSymbol) && gameField[1][1].equals(computerSymbol)
+                && gameField[0][2] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) == null && GridPane.getColumnIndex(node) != null
+                        && GridPane.getColumnIndex(node) == 2) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[0][2] = computerSymbol;
+            checkFinish(0, 2);
+            return true;
+        } else if (((gameField[1][1] != null && gameField[0][2] != null)
+                && (gameField[1][1].equals(computerSymbol) && gameField[0][2].equals(computerSymbol)
+                && gameField[2][0] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 2
+                        && GridPane.getColumnIndex(node) == null) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[2][0] = computerSymbol;
+            checkFinish( 2, 0);
+            return true;
+        }
+        return false;
+    }
+
     private void computerTurn() {
-        if (checkEnemyWinDiagonalRight() || checkEnemyWinDiagonalLeft()) {
+        if (checkOwnWinDiagonalRight() || checkOwnWinDiagonalLeft()) {
+
+        } else if (checkOwnWinColumn(0) || checkOwnWinColumn(1) || checkOwnWinColumn(2)) {
+
+        } else if (checkOwnWinRow(0) || checkOwnWinRow(1) || checkOwnWinRow(2)) {
+
+        } else if (checkEnemyWinDiagonalRight() || checkEnemyWinDiagonalLeft()) {
 
         } else if (checkEnemyWinColumn(0) || checkEnemyWinColumn(1) || checkEnemyWinColumn(2)) {
 
         } else if (checkEnemyWinRow(0) || checkEnemyWinRow(1) || checkEnemyWinRow(2)) {
 
+        } else if (isCleanCenter()) {
+            for (Node node : gameFieldUI.getChildren()) {
+                Button btn = (Button) node;
+                if ((GridPane.getRowIndex(btn) != null && GridPane.getColumnIndex(btn) != null)
+                        && (GridPane.getRowIndex(btn) == 1 && GridPane.getColumnIndex(btn) == 1)) {
+                    btn.setText(computerSymbol);
+                    gameField[1][1] = computerSymbol;
+                    checkFinish(1, 1);
+                    return;
+                }
+            }
+        } else if (isCleanDiagonalCell()) {
+            System.out.println("ok2");
+            for (Node node : gameFieldUI.getChildren()) {
+                Button btn = (Button) node;
+                int rowIndex = GridPane.getRowIndex(btn) == null ? 0 : GridPane.getRowIndex(btn);
+                int columnIndex = GridPane.getColumnIndex(btn) == null ? 0 : GridPane.getColumnIndex(btn);
+                if (rowIndex == 0 && columnIndex == 0 && btn.getText() == "") {
+                    btn.setText(computerSymbol);
+                    gameField[0][0] = computerSymbol;
+                    checkFinish(0, 0);
+                    return;
+                } else if (rowIndex == 0 && columnIndex == 2 && btn.getText() == "") {
+                    btn.setText(computerSymbol);
+                    gameField[0][2] = computerSymbol;
+                    checkFinish(0, 2);
+                    return;
+                } else if (rowIndex == 2 && columnIndex == 0 && btn.getText() == "") {
+                    btn.setText(computerSymbol);
+                    gameField[2][0] = computerSymbol;
+                    checkFinish(2, 0);
+                    return;
+                } else if (rowIndex == 2 && columnIndex == 2 && btn.getText() == "") {
+                    btn.setText(computerSymbol);
+                    gameField[2][2] = computerSymbol;
+                    checkFinish(2, 2);
+                    return;
+                }
+            }
         } else {
             while (true) {
                 int computerRow = rnd.nextInt(3);
@@ -239,6 +448,36 @@ public class GameOneController {
                 }
             }
         }
+    }
+
+    private boolean isCleanCenter() {
+        boolean isCleanCenter = false;
+        for (Node node : gameFieldUI.getChildren()) {
+            if ((GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null)
+                    && (GridPane.getRowIndex(node) == 1 && GridPane.getColumnIndex(node) == 1)
+                    && gameField[1][1] == null) {
+                isCleanCenter = true;
+                return isCleanCenter;
+            }
+        }
+        return isCleanCenter;
+    }
+
+    private boolean isCleanDiagonalCell() {
+        boolean isCleanCell = false;
+        for (Node node : gameFieldUI.getChildren()) {
+            Button btn = (Button) node;
+            int rowIndex = GridPane.getRowIndex(btn) == null ? 0 : GridPane.getRowIndex(btn);
+            int columnIndex = GridPane.getColumnIndex(btn) == null ? 0 : GridPane.getColumnIndex(btn);
+            if (rowIndex == 0 && columnIndex == 0  && btn.getText() == ""
+                    || rowIndex == 0 && columnIndex == 2 && btn.getText() == ""
+                    || rowIndex == 2 && columnIndex == 0 && btn.getText() == ""
+                    || rowIndex == 2 && columnIndex == 2 && btn.getText() == "") {
+                isCleanCell = true;
+                return isCleanCell;
+            }
+        }
+        return isCleanCell;
     }
 
     private boolean isFull() {
