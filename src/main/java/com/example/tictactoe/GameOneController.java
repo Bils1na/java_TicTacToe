@@ -25,7 +25,6 @@ public class GameOneController {
     private boolean isPlayed = true;
 
 
-
     @FXML
     private Line winLine = new Line();
     @FXML
@@ -49,8 +48,6 @@ public class GameOneController {
         }
     }
 
-
-
     private boolean checkEnemyWinRow(Integer row) {
         Integer rowNull = row == 0 ? null : row;
         if ((gameField[row][0] != null && gameField[row][1] != null)
@@ -58,7 +55,7 @@ public class GameOneController {
                 && gameField[row][2] == null) {
             for (Node node : gameFieldUI.getChildren()) {
                 if (GridPane.getColumnIndex(node) != null
-                        && (GridPane.getRowIndex(node) == rowNull && GridPane.getColumnIndex(node) == 2)) {
+                        && (Objects.equals(GridPane.getRowIndex(node), rowNull) && GridPane.getColumnIndex(node) == 2)) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
@@ -69,7 +66,7 @@ public class GameOneController {
                 && (gameField[row][1].equals(playerSymbol) && gameField[row][2].equals(playerSymbol))
                 && gameField[row][0] == null) {
             for (Node node : gameFieldUI.getChildren()) {
-                if (GridPane.getColumnIndex(node) == null && GridPane.getRowIndex(node) == rowNull) {
+                if (GridPane.getColumnIndex(node) == null && Objects.equals(GridPane.getRowIndex(node), rowNull)) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
@@ -81,7 +78,7 @@ public class GameOneController {
                 && gameField[row][1] == null) {
             for (Node node : gameFieldUI.getChildren()) {
                 if (GridPane.getColumnIndex(node) != null
-                && GridPane.getColumnIndex(node) == 1 && GridPane.getRowIndex(node) == rowNull) {
+                && GridPane.getColumnIndex(node) == 1 && Objects.equals(GridPane.getRowIndex(node), rowNull)) {
                     ((Button) node).setText(computerSymbol);
                 }
             }
