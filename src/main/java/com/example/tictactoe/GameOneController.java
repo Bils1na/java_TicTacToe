@@ -98,8 +98,6 @@ public class GameOneController {
                 if (GridPane.getRowIndex(node) != null
                         && (GridPane.getRowIndex(node) == 2 && GridPane.getColumnIndex(node) == columnNull)) {
                     ((Button) node).setText(computerSymbol);
-                    System.out.println(GridPane.getColumnIndex(node));
-                    System.out.println(GridPane.getRowIndex(node));
                 }
             }
             gameField[2][column] = computerSymbol;
@@ -112,8 +110,6 @@ public class GameOneController {
             for (Node node : gameFieldUI.getChildren()) {
                 if (GridPane.getColumnIndex(node) == columnNull && GridPane.getRowIndex(node) == null) {
                     ((Button) node).setText(computerSymbol);
-                    System.out.println(GridPane.getColumnIndex(node));
-                    System.out.println(GridPane.getRowIndex(node));
                 }
             }
             gameField[0][column] = computerSymbol;
@@ -126,8 +122,6 @@ public class GameOneController {
                 if (GridPane.getRowIndex(node) != null
                         && GridPane.getColumnIndex(node) == columnNull && GridPane.getRowIndex(node) == 1) {
                     ((Button) node).setText(computerSymbol);
-                    System.out.println(GridPane.getColumnIndex(node));
-                    System.out.println(GridPane.getRowIndex(node));
                 }
             }
             gameField[1][column] = computerSymbol;
@@ -137,10 +131,93 @@ public class GameOneController {
         return false;
     }
 
-    private void computerTurn() {
-        if (checkEnemyWinRow(0) || checkEnemyWinRow(1) || checkEnemyWinRow(2)) {
+    private boolean checkEnemyWinDiagonalRight() {
+        if (((gameField[0][0] != null && gameField[1][1] != null)
+                && (gameField[0][0].equals(playerSymbol) && gameField[1][1].equals(playerSymbol)
+                && gameField[2][2] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null
+                        && GridPane.getRowIndex(node) == 2 && GridPane.getColumnIndex(node) == 2) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[2][2] = computerSymbol;
+            checkFinish(2, 2);
+            return true;
+        } else if (((gameField[0][0] != null && gameField[2][2] != null)
+                && (gameField[0][0].equals(playerSymbol) && gameField[2][2].equals(playerSymbol)
+                && gameField[1][1] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null
+                        && GridPane.getRowIndex(node) == 1 && GridPane.getColumnIndex(node) == 1) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[1][1] = computerSymbol;
+            checkFinish(1, 1);
+            return true;
+        } else if (((gameField[1][1] != null && gameField[2][2] != null)
+                && (gameField[1][1].equals(playerSymbol) && gameField[2][2].equals(playerSymbol)
+                && gameField[0][0] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) == null && GridPane.getColumnIndex(node) == null) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[0][0] = computerSymbol;
+            checkFinish( 0, 0);
+            return true;
+        }
+        return false;
+    }
 
-        } else if (checkEnemyWinColumn(0) || checkEnemyWinColumn(1) || checkEnemyWinColumn(2)){
+    private boolean checkEnemyWinDiagonalLeft() {
+        if (((gameField[2][0] != null && gameField[0][2] != null)
+                && (gameField[2][0].equals(playerSymbol) && gameField[0][2].equals(playerSymbol)
+                && gameField[1][1] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null
+                        && GridPane.getRowIndex(node) == 1 && GridPane.getColumnIndex(node) == 1) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[1][1] = computerSymbol;
+            checkFinish(1, 1);
+            return true;
+        } else if (((gameField[2][0] != null && gameField[1][1] != null)
+                && (gameField[2][0].equals(playerSymbol) && gameField[1][1].equals(playerSymbol)
+                && gameField[0][2] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) == null && GridPane.getColumnIndex(node) != null
+                        && GridPane.getColumnIndex(node) == 2) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[0][2] = computerSymbol;
+            checkFinish(0, 2);
+            return true;
+        } else if (((gameField[1][1] != null && gameField[0][2] != null)
+                && (gameField[1][1].equals(playerSymbol) && gameField[0][2].equals(playerSymbol)
+                && gameField[2][0] == null))) {
+            for (Node node : gameFieldUI.getChildren()) {
+                if (GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 2
+                        && GridPane.getColumnIndex(node) == null) {
+                    ((Button) node).setText(computerSymbol);
+                }
+            }
+            gameField[2][0] = computerSymbol;
+            checkFinish( 2, 0);
+            return true;
+        }
+        return false;
+    }
+
+    private void computerTurn() {
+        if (checkEnemyWinDiagonalRight() || checkEnemyWinDiagonalLeft()) {
+
+        } else if (checkEnemyWinColumn(0) || checkEnemyWinColumn(1) || checkEnemyWinColumn(2)) {
+
+        } else if (checkEnemyWinRow(0) || checkEnemyWinRow(1) || checkEnemyWinRow(2)) {
 
         } else {
             while (true) {
