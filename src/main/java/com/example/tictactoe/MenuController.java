@@ -22,7 +22,7 @@ public class MenuController {
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game1-view.fxml"));
         Stage stage = (Stage) playButton.getScene().getWindow();
         try {
-            stage.setScene(new Scene(gameLoader.load(), Config.getX(), Config.getY()));
+            stage.setScene(new Scene(gameLoader.load(), Config.getX(), Config.getGameY()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,7 +33,7 @@ public class MenuController {
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game2-view.fxml"));
         Stage stage = (Stage) multiplayButton.getScene().getWindow();
         try {
-            stage.setScene(new Scene(gameLoader.load(), Config.getX(), Config.getY()));
+            stage.setScene(new Scene(gameLoader.load(), Config.getX(), Config.getGameY()));
         } catch (IOException e) {
             e.printStackTrace();
         }

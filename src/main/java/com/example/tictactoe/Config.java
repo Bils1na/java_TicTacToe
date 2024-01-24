@@ -11,4 +11,8 @@ public class Config {
         return y;
     }
 
+    public static Integer getGameY() {
+        return y + 52;
+    }
+
 }

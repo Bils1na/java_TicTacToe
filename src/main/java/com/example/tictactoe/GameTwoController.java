@@ -20,11 +20,14 @@ public class GameTwoController {
 
     private String currentSymbol = "X";
     private String[][] gameField = new String[3][3];
+    private int oWin = 0, xWin = 0;
 
     @FXML
     private Line winLine = new Line();
     @FXML
     private GridPane gameFieldUI;
+    @FXML
+    private Label countO, countX;
 
 
     @FXML
@@ -41,12 +44,12 @@ public class GameTwoController {
         }
     }
 
-    private void winWindow() {
+    private void winXWindow() {
         Stage winWindow = new Stage();
         winWindow.initModality(Modality.APPLICATION_MODAL);
-        winWindow.setTitle("Won");
+        winWindow.setTitle("X Won");
 
-        Label label = new Label("Congratulations! You won!");
+        Label label = new Label("Congratulations! X won!");
         label.setStyle("-fx-font-size: 20px;");
         Button repeatButton = new Button("Again");
         Button exitButton = new Button("Exit");
@@ -76,6 +79,43 @@ public class GameTwoController {
         winWindow.setScene(dialogScene);
 
         winWindow.showAndWait();
+    }
+
+    private void winOWindow() {
+        Stage loseWindow = new Stage();
+        loseWindow.initModality(Modality.APPLICATION_MODAL);
+        loseWindow.setTitle("O Won");
+
+        Label label = new Label("Congratulations! O won!");
+        label.setStyle("-fx-font-size: 20px;");
+        Button repeatButton = new Button("Again");
+        Button exitButton = new Button("Exit");
+        exitButton.setOnAction(e ->  {
+            FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu-view.fxml"));
+            Stage stage = (Stage) gameFieldUI.getScene().getWindow();
+            try {
+                stage.setScene(new Scene(menuLoader.load(), Config.getX(), Config.getY()));
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+            loseWindow.close();
+        });
+        repeatButton.setOnAction(e -> {
+            repeat();
+            loseWindow.close();
+        });
+
+        VBox loseWindowContent = new VBox(20);
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(repeatButton, exitButton);
+        loseWindowContent.getChildren().addAll(label, buttons);
+        loseWindowContent.setAlignment(javafx.geometry.Pos.CENTER);
+        buttons.setAlignment(javafx.geometry.Pos.CENTER);
+
+        Scene dialogScene = new Scene(loseWindowContent, 300, 150);
+        loseWindow.setScene(dialogScene);
+
+        loseWindow.showAndWait();
     }
 
     private void drawWindow() {
@@ -128,22 +168,54 @@ public class GameTwoController {
             if (checkRow(row)) {
                 if (winLine != null) {
                     renderWinLine(row, null, null);
-                    winWindow();
+                    if (gameField[row][0].equals("X")) {
+                        xWin++;
+                        countX.setText(String.valueOf(xWin));
+                        winXWindow();
+                    } else {
+                        oWin++;
+                        countO.setText(String.valueOf(oWin));
+                        winOWindow();
+                    }
                 }
             } else if (checkColumn(column)) {
                 if (winLine != null){
                     renderWinLine(null, column, null);
-                    winWindow();
+                    if (gameField[0][column].equals("X")) {
+                        xWin++;
+                        countX.setText(String.valueOf(xWin));
+                        winXWindow();
+                    } else {
+                        oWin++;
+                        countO.setText(String.valueOf(oWin));
+                        winOWindow();
+                    }
                 }
             } else if (checkDiagonalRight()) {
                 if (winLine != null) {
                     renderWinLine(null, null, true);
-                    winWindow();
+                    if (gameField[0][0].equals("X")) {
+                        xWin++;
+                        countX.setText(String.valueOf(xWin));
+                        winXWindow();
+                    } else {
+                        oWin++;
+                        countO.setText(String.valueOf(oWin));
+                        winOWindow();
+                    }
                 }
             } else if (checkDiagonalLeft()) {
                 if (winLine != null) {
                     renderWinLine(null, null, false);
-                    winWindow();
+                    if (gameField[2][0].equals("X")) {
+                        xWin++;
+                        countX.setText(String.valueOf(xWin));
+                        winXWindow();
+                    } else {
+                        oWin++;
+                        countO.setText(String.valueOf(oWin));
+                        winOWindow();
+                    }
                 }
             }
         }
@@ -181,6 +253,7 @@ public class GameTwoController {
                 isWin = false;
                 return isWin;
             }
+
         }
         return isWin;
     }

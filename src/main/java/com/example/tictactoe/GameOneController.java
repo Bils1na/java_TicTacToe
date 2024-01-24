@@ -23,12 +23,15 @@ public class GameOneController {
     private String[][] gameField = new String[3][3];
     private final Random rnd = new Random();
     private boolean isPlayed = true;
+    private int oWin = 0, xWin = 0;
 
 
     @FXML
     private Line winLine = new Line();
     @FXML
     private GridPane gameFieldUI;
+    @FXML
+    private Label countO, countX;
 
 
     @FXML
@@ -617,8 +620,12 @@ public class GameOneController {
                     isPlayed = false;
                     renderWinLine(row, null, null);
                     if (gameField[row][0].equals("X")) {
+                        xWin++;
+                        countX.setText(String.valueOf(xWin));
                         winWindow();
                     } else {
+                        oWin++;
+                        countO.setText(String.valueOf(oWin));
                         loseWindow();
                     }
                 }
@@ -627,8 +634,12 @@ public class GameOneController {
                     isPlayed = false;
                     renderWinLine(null, column, null);
                     if (gameField[0][column].equals("X")) {
+                        xWin++;
+                        countX.setText(String.valueOf(xWin));
                         winWindow();
                     } else {
+                        oWin++;
+                        countO.setText(String.valueOf(oWin));
                         loseWindow();
                     }
                 }
@@ -637,8 +648,12 @@ public class GameOneController {
                     isPlayed = false;
                     renderWinLine(null, null, true);
                     if (gameField[0][0].equals("X")) {
+                        xWin++;
+                        countX.setText(String.valueOf(xWin));
                         winWindow();
                     } else {
+                        oWin++;
+                        countO.setText(String.valueOf(oWin));
                         loseWindow();
                     }
                 }
@@ -647,8 +662,12 @@ public class GameOneController {
                     isPlayed = false;
                     renderWinLine(null, null, false);
                     if (gameField[2][0].equals("X")) {
+                        xWin++;
+                        countX.setText(String.valueOf(xWin));
                         winWindow();
                     } else {
+                        oWin++;
+                        countO.setText(String.valueOf(oWin));
                         loseWindow();
                     }
                 }
