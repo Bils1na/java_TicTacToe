@@ -62,11 +62,11 @@ public class GameTwoController {
                 exception.printStackTrace();
             }
             winWindow.close();
+             DatabaseHandler.addToDatabase("Artem", xWin);
         });
         repeatButton.setOnAction(e -> {
             repeat();
             winWindow.close();
-            DatabaseHandler.addToDatabase("User1", xWin);
         });
 
         VBox winWindowContent = new VBox(20);

@@ -1,14 +1,11 @@
 package com.example.tictactoe;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
-
 import java.sql.*;
 
 public class DatabaseHandler {
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/XODB";
-    private static final String USERNAME = "Artem";
-    private static final String PASSWORD = "admin";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/XODB",
+            USERNAME = "Artem", PASSWORD = "admin";
+
     public static void addToDatabase(String name, Integer score) {
         try {
             // Загружаем драйвер JDBC
@@ -30,12 +27,35 @@ public class DatabaseHandler {
 //            }
 
 //            // Пример выполнения запроса INSERT
-            String insertQuery = "INSERT INTO USERS (NAME, SCORE) VALUES (?, ?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setString(1, name);
-                preparedStatement.setString(2, String.valueOf(score));
-                int rowsAffected = preparedStatement.executeUpdate();
-                System.out.println(rowsAffected + " row(s) affected");
+//            String insertQuery = "INSERT INTO USERS (NAME, SCORE) VALUES (?, ?)";
+//            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+//                preparedStatement.setString(1, name);
+//                preparedStatement.setString(2, String.valueOf(score));
+//                int rowsAffected = preparedStatement.executeUpdate();
+//                System.out.println(rowsAffected + " row(s) affected");
+//            }
+            System.out.println("connection...");
+            if (isExistInDatabase(name)) {
+                String insertQuery = "INSERT INTO USERS (NAME, SCORE) VALUES (?, ?)";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                    preparedStatement.setString(1, name);
+                    preparedStatement.setString(2, String.valueOf(score));
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    System.out.println(rowsAffected + " row(s) affected");
+                }
+            } else {
+                String updateQuery = "UPDATE USERS SET SCORE = ? WHERE NAME = ?";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+                    preparedStatement.setInt(1, score);
+                    preparedStatement.setString(2, name);
+                    int rowsAffected = preparedStatement.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        System.out.println("OK");
+                    } else {
+                        System.out.println("Not OK");
+                    }
+                }
             }
 
             // Закрываем соединение
@@ -43,5 +63,28 @@ public class DatabaseHandler {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private static boolean isExistInDatabase(String name) {
+        try {
+            // Загружаем драйвер JDBC
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Устанавливаем соединение с базой данных
+            Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            String selectQuery = "SELECT * FROM USERS";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    String checkName = resultSet.getString("NAME");
+                    if (checkName.equals(name)) return false;
+                }
+            }
+
+            connection.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }
