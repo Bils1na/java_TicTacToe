@@ -403,6 +403,14 @@ public class GameOneController {
                     return;
                 }
             }
+        } else if (((Button) gameFieldUI.getChildren().get(0)).getText().equals("X")
+                && ((Button) gameFieldUI.getChildren().get(1)).getText().equals("X")) {
+            ((Button) gameFieldUI.getChildren().get(4)).setText("O");
+            gameField[1][2] = "O";
+        } else if (((Button) gameFieldUI.getChildren().get(3)).getText().equals("X")
+                && ((Button) gameFieldUI.getChildren().get(7)).getText().equals("X")) {
+            ((Button) gameFieldUI.getChildren().get(6)).setText("O");
+            gameField[1][0] = "O";
         } else if (isCleanDiagonalCell()) {
             for (Node node : gameFieldUI.getChildren()) {
                 Button btn = (Button) node;
