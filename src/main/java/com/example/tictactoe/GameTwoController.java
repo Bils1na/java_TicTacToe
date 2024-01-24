@@ -66,6 +66,7 @@ public class GameTwoController {
         repeatButton.setOnAction(e -> {
             repeat();
             winWindow.close();
+            DatabaseHandler.addToDatabase("User1", xWin);
         });
 
         VBox winWindowContent = new VBox(20);
