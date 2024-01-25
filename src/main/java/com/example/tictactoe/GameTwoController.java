@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,9 +19,10 @@ import java.io.IOException;
 
 public class GameTwoController {
 
-    private String currentSymbol = "X";
+    private String currentSymbol = "X", userOne = "PlayerOne", userTwo = "PlayerTwo";
     private String[][] gameField = new String[3][3];
     private int oWin = 0, xWin = 0;
+
 
     @FXML
     private Line winLine = new Line();
@@ -44,6 +46,66 @@ public class GameTwoController {
         }
     }
 
+    @FXML
+    public void initialize() {
+        setUserOneWindow();
+        setUserTwoWindow();
+    }
+
+    private void setUserOneWindow() {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Enter Player 1 name");
+
+        Label label = new Label("Please, enter player 1 name. (X)");
+        label.setStyle("-fx-font-size: 20px;");
+        Button enterButton = new Button("Enter");
+        TextField enterField = new TextField();
+        enterButton.setOnAction(e -> {
+            if (!enterField.getText().isEmpty()) userOne = enterField.getText();
+            window.close();
+        });
+
+        VBox windowContent = new VBox(20);
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(enterButton);
+        windowContent.getChildren().addAll(label, enterField, buttons);
+        windowContent.setAlignment(javafx.geometry.Pos.CENTER);
+        buttons.setAlignment(javafx.geometry.Pos.CENTER);
+
+        Scene dialogScene = new Scene(windowContent, 300, 150);
+        window.setScene(dialogScene);
+
+        window.showAndWait();;
+    }
+
+    private void setUserTwoWindow() {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Enter Player 2 name");
+
+        Label label = new Label("Please, enter player 2 name. (O)");
+        label.setStyle("-fx-font-size: 20px;");
+        Button enterButton = new Button("Enter");
+        TextField enterField = new TextField();
+        enterButton.setOnAction(e -> {
+            if (!enterField.getText().isEmpty()) userTwo = enterField.getText();
+            window.close();
+        });
+
+        VBox windowContent = new VBox(20);
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(enterButton);
+        windowContent.getChildren().addAll(label, enterField, buttons);
+        windowContent.setAlignment(javafx.geometry.Pos.CENTER);
+        buttons.setAlignment(javafx.geometry.Pos.CENTER);
+
+        Scene dialogScene = new Scene(windowContent, 300, 150);
+        window.setScene(dialogScene);
+
+        window.showAndWait();
+    }
+
     private void winXWindow() {
         Stage winWindow = new Stage();
         winWindow.initModality(Modality.APPLICATION_MODAL);
@@ -61,8 +123,9 @@ public class GameTwoController {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
+            DatabaseHandler.addToDatabase(userOne, xWin);
+            DatabaseHandler.addToDatabase(userTwo, oWin);
             winWindow.close();
-             DatabaseHandler.addToDatabase("Artem", xWin);
         });
         repeatButton.setOnAction(e -> {
             repeat();
@@ -83,9 +146,9 @@ public class GameTwoController {
     }
 
     private void winOWindow() {
-        Stage loseWindow = new Stage();
-        loseWindow.initModality(Modality.APPLICATION_MODAL);
-        loseWindow.setTitle("O Won");
+        Stage winWindow = new Stage();
+        winWindow.initModality(Modality.APPLICATION_MODAL);
+        winWindow.setTitle("O Won");
 
         Label label = new Label("Congratulations! O won!");
         label.setStyle("-fx-font-size: 20px;");
@@ -99,11 +162,13 @@ public class GameTwoController {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
-            loseWindow.close();
+            DatabaseHandler.addToDatabase(userOne, xWin);
+            DatabaseHandler.addToDatabase(userTwo, oWin);
+            winWindow.close();
         });
         repeatButton.setOnAction(e -> {
             repeat();
-            loseWindow.close();
+            winWindow.close();
         });
 
         VBox loseWindowContent = new VBox(20);
@@ -114,9 +179,9 @@ public class GameTwoController {
         buttons.setAlignment(javafx.geometry.Pos.CENTER);
 
         Scene dialogScene = new Scene(loseWindowContent, 300, 150);
-        loseWindow.setScene(dialogScene);
+        winWindow.setScene(dialogScene);
 
-        loseWindow.showAndWait();
+        winWindow.showAndWait();
     }
 
     private void drawWindow() {
@@ -173,6 +238,7 @@ public class GameTwoController {
                         xWin++;
                         countX.setText(String.valueOf(xWin));
                         winXWindow();
+                        currentSymbol = "X";
                     } else {
                         oWin++;
                         countO.setText(String.valueOf(oWin));
@@ -186,6 +252,7 @@ public class GameTwoController {
                         xWin++;
                         countX.setText(String.valueOf(xWin));
                         winXWindow();
+                        currentSymbol = "X";
                     } else {
                         oWin++;
                         countO.setText(String.valueOf(oWin));
@@ -199,6 +266,7 @@ public class GameTwoController {
                         xWin++;
                         countX.setText(String.valueOf(xWin));
                         winXWindow();
+                        currentSymbol = "X";
                     } else {
                         oWin++;
                         countO.setText(String.valueOf(oWin));
@@ -212,6 +280,7 @@ public class GameTwoController {
                         xWin++;
                         countX.setText(String.valueOf(xWin));
                         winXWindow();
+                        currentSymbol = "X";
                     } else {
                         oWin++;
                         countO.setText(String.valueOf(oWin));
