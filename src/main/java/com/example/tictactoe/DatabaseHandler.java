@@ -1,6 +1,8 @@
 package com.example.tictactoe;
 
 import java.sql.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class DatabaseHandler {
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/XODB",
@@ -35,7 +37,7 @@ public class DatabaseHandler {
 //                System.out.println(rowsAffected + " row(s) affected");
 //            }
             System.out.println("connection...");
-            if (isExistInDatabase(name)) {
+            if (existInDatabase(name)) {
                 String insertQuery = "INSERT INTO USERS (NAME, SCORE) VALUES (?, ?)";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                     preparedStatement.setString(1, name);
@@ -65,7 +67,7 @@ public class DatabaseHandler {
         }
     }
 
-    private static boolean isExistInDatabase(String name) {
+    private static boolean existInDatabase(String name) {
         try {
             // Загружаем драйвер JDBC
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -86,5 +88,30 @@ public class DatabaseHandler {
             e.printStackTrace();
         }
         return true;
+    }
+
+    public static ArrayDeque<String> downloadDatabase() {
+        ArrayDeque<String> data = new ArrayDeque<>();
+        try {
+            // Загружаем драйвер JDBC
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Устанавливаем соединение с базой данных
+            Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+
+//             Пример выполнения запроса SELECT
+            String selectQuery = "SELECT * FROM USERS";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    // Обрабатываем результаты запроса
+                    data.add(resultSet.getString("NAME"));
+                    data.add(resultSet.getString("SCORE"));
+                }
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 }

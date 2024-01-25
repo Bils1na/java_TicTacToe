@@ -15,7 +15,7 @@ import java.io.IOException;
 public class MenuController {
 
     @FXML
-    private Button playButton, multiplayButton, exitButton;
+    private Button playButton, multiplayButton, exitButton, recordButton;
 
     @FXML
     void btnOnePlay(ActionEvent event) {
@@ -43,5 +43,16 @@ public class MenuController {
     void btnExit(ActionEvent event) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    void btnRecord(ActionEvent event) {
+        FXMLLoader recordLoader = new FXMLLoader(getClass().getResource("record-view.fxml"));
+        Stage stage = (Stage) recordButton.getScene().getWindow();
+        try {
+            stage.setScene(new Scene(recordLoader.load(), Config.getX(), Config.getY()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
