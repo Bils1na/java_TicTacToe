@@ -1,10 +1,16 @@
 package com.example.tictactoe;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayDeque;
 
 public class RecordController {
@@ -12,6 +18,20 @@ public class RecordController {
     private Integer number = 1;
     @FXML
     private GridPane recordTable;
+    @FXML
+    private Button exitButton;
+
+
+    @FXML
+    public void btnExit(ActionEvent event) {
+        FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu-view.fxml"));
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        try {
+            stage.setScene(new Scene(menuLoader.load(), Config.getX(), Config.getY()));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
 
     @FXML
     public void initialize() {

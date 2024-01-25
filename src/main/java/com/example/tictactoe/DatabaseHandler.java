@@ -2,7 +2,6 @@ package com.example.tictactoe;
 
 import java.sql.*;
 import java.util.ArrayDeque;
-import java.util.Deque;
 
 public class DatabaseHandler {
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/XODB",
@@ -10,10 +9,8 @@ public class DatabaseHandler {
 
     public static void addToDatabase(String name, Integer score) {
         try {
-            // Загружаем драйвер JDBC
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // Устанавливаем соединение с базой данных
             Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
 
             System.out.println("connection...");
@@ -39,8 +36,7 @@ public class DatabaseHandler {
                     }
                 }
             }
-
-            // Закрываем соединение
+            System.out.println("disconnection...");
             connection.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -49,10 +45,8 @@ public class DatabaseHandler {
 
     private static boolean existInDatabase(String name) {
         try {
-            // Загружаем драйвер JDBC
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // Устанавливаем соединение с базой данных
             Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
             String selectQuery = "SELECT * FROM USERS";
             try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
@@ -95,18 +89,14 @@ public class DatabaseHandler {
     public static ArrayDeque<ArrayDeque<String>> downloadDatabase() {
         ArrayDeque<ArrayDeque<String>> data = new ArrayDeque<>();
         try {
-            // Загружаем драйвер JDBC
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // Устанавливаем соединение с базой данных
             Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
 
-//             Пример выполнения запроса SELECT
             String selectQuery = "SELECT * FROM USERS ORDER BY SCORE DESC";
             try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    // Обрабатываем результаты запроса
                     ArrayDeque<String> userData = new ArrayDeque<>();
                     userData.add(resultSet.getString("NAME"));
                     userData.add(resultSet.getString("SCORE"));

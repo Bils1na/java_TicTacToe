@@ -1,13 +1,10 @@
 package com.example.tictactoe;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -50,7 +47,7 @@ public class MenuController {
         FXMLLoader recordLoader = new FXMLLoader(getClass().getResource("record-view.fxml"));
         Stage stage = (Stage) recordButton.getScene().getWindow();
         try {
-            stage.setScene(new Scene(recordLoader.load(), Config.getX(), Config.getY()));
+            stage.setScene(new Scene(recordLoader.load(), Config.getX(), Config.getGameY()));
         } catch (IOException e) {
             e.printStackTrace();
         }

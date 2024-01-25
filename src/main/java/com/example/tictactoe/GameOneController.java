@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,6 +21,7 @@ import java.util.Random;
 
 public class GameOneController {
     private final String playerSymbol = "X", computerSymbol = "O";
+    private String user = "PlayerOne";
     private String[][] gameField = new String[3][3];
     private final Random rnd = new Random();
     private boolean isPlayed = true;
@@ -33,6 +35,11 @@ public class GameOneController {
     @FXML
     private Label countO, countX;
 
+
+    @FXML
+    public void initialize() {
+        setUserWindow();
+    }
 
     @FXML
     void btnClick(ActionEvent event) {
@@ -502,6 +509,33 @@ public class GameOneController {
         return isFull;
     }
 
+    private void setUserWindow() {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Enter Player 1 name");
+
+        Label label = new Label("Please, enter player 1 name. (X)");
+        label.setStyle("-fx-font-size: 20px;");
+        Button enterButton = new Button("Enter");
+        TextField enterField = new TextField();
+        enterButton.setOnAction(e -> {
+            if (!enterField.getText().isEmpty()) user = enterField.getText();
+            window.close();
+        });
+
+        VBox windowContent = new VBox(20);
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(enterButton);
+        windowContent.getChildren().addAll(label, enterField, buttons);
+        windowContent.setAlignment(javafx.geometry.Pos.CENTER);
+        buttons.setAlignment(javafx.geometry.Pos.CENTER);
+
+        Scene dialogScene = new Scene(windowContent, 300, 150);
+        window.setScene(dialogScene);
+
+        window.showAndWait();;
+    }
+
     private void winWindow() {
         Stage winWindow = new Stage();
         winWindow.initModality(Modality.APPLICATION_MODAL);
@@ -519,6 +553,7 @@ public class GameOneController {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
+            DatabaseHandler.addToDatabase(user, xWin);
             winWindow.close();
         });
         repeatButton.setOnAction(e -> {
@@ -556,6 +591,7 @@ public class GameOneController {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
+            DatabaseHandler.addToDatabase(user, xWin);
             loseWindow.close();
         });
         repeatButton.setOnAction(e -> {
