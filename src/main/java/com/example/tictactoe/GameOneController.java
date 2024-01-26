@@ -629,6 +629,7 @@ public class GameOneController {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
+            DatabaseHandler.addToDatabase(user, xWin);
             drawWindow.close();
         });
         repeatButton.setOnAction(e -> {

@@ -301,6 +301,7 @@ public class GameTwoController {
         }
         if (isGame) {
             repeat();
+            currentSymbol = "X";
             drawWindow();
         }
     }
