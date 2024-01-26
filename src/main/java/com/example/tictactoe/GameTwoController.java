@@ -239,10 +239,12 @@ public class GameTwoController {
                         countX.setText(String.valueOf(xWin));
                         winXWindow();
                         currentSymbol = "X";
+                        return;
                     } else {
                         oWin++;
                         countO.setText(String.valueOf(oWin));
                         winOWindow();
+                        return;
                     }
                 }
             } else if (checkColumn(column)) {
@@ -253,10 +255,12 @@ public class GameTwoController {
                         countX.setText(String.valueOf(xWin));
                         winXWindow();
                         currentSymbol = "X";
+                        return;
                     } else {
                         oWin++;
                         countO.setText(String.valueOf(oWin));
                         winOWindow();
+                        return;
                     }
                 }
             } else if (checkDiagonalRight()) {
@@ -267,10 +271,12 @@ public class GameTwoController {
                         countX.setText(String.valueOf(xWin));
                         winXWindow();
                         currentSymbol = "X";
+                        return;
                     } else {
                         oWin++;
                         countO.setText(String.valueOf(oWin));
                         winOWindow();
+                        return;
                     }
                 }
             } else if (checkDiagonalLeft()) {
@@ -281,10 +287,12 @@ public class GameTwoController {
                         countX.setText(String.valueOf(xWin));
                         winXWindow();
                         currentSymbol = "X";
+                        return;
                     } else {
                         oWin++;
                         countO.setText(String.valueOf(oWin));
                         winOWindow();
+                        return;
                     }
                 }
             }

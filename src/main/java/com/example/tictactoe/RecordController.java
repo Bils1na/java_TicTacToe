@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 
 public class RecordController {
-    private ArrayDeque<ArrayDeque<String>> data;
     private Integer number = 1;
     @FXML
     private GridPane recordTable;
@@ -35,7 +34,7 @@ public class RecordController {
 
     @FXML
     public void initialize() {
-        data = DatabaseHandler.downloadDatabase();
+        ArrayDeque<ArrayDeque<String>> data = DatabaseHandler.downloadDatabase();
         for (ArrayDeque<String> arr : data) {
             for (Node node : recordTable.getChildren()) {
                 Integer column = GridPane.getColumnIndex(node);
