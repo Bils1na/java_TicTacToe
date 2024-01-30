@@ -1,5 +1,8 @@
 package com.example.tictactoe;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -26,6 +30,8 @@ public class GameOneController {
     private final Random rnd = new Random();
     private boolean isPlayed = true;
     private int oWin = 0, xWin = 0;
+    private Timeline timeline;
+    private SimpleIntegerProperty timeSeconds = new SimpleIntegerProperty(0);
 
 
     @FXML
@@ -33,12 +39,34 @@ public class GameOneController {
     @FXML
     private GridPane gameFieldUI;
     @FXML
-    private Label countO, countX;
+    private Label countO, countX, timerLabel;
 
 
     @FXML
     public void initialize() {
         setUserWindow();
+        setupTimer();
+        timeline.play();
+    }
+
+    private void setupTimer() {
+        timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timerLabel.setText("00:00");
+
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> {
+            timeSeconds.set(timeSeconds.get() + 1);
+            updateTimerUI();
+        });
+
+        timeline.getKeyFrames().add(keyFrame);
+    }
+
+    private void updateTimerUI() {
+        int minutes = timeSeconds.get() / 60;
+        int seconds = timeSeconds.get() % 60;
+
+        timerLabel.setText(String.format("%02d:%02d", minutes, seconds));
     }
 
     @FXML
@@ -554,6 +582,8 @@ public class GameOneController {
                 exception.printStackTrace();
             }
             DatabaseHandler.addToDatabase(user, xWin);
+            timeSeconds.set(0);
+            updateTimerUI();
             winWindow.close();
         });
         repeatButton.setOnAction(e -> {
@@ -592,6 +622,8 @@ public class GameOneController {
                 exception.printStackTrace();
             }
             DatabaseHandler.addToDatabase(user, xWin);
+            timeSeconds.set(0);
+            updateTimerUI();
             loseWindow.close();
         });
         repeatButton.setOnAction(e -> {
@@ -630,6 +662,8 @@ public class GameOneController {
                 exception.printStackTrace();
             }
             DatabaseHandler.addToDatabase(user, xWin);
+            timeSeconds.set(0);
+            updateTimerUI();
             drawWindow.close();
         });
         repeatButton.setOnAction(e -> {

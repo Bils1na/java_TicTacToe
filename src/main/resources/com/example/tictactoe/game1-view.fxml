@@ -74,7 +74,7 @@
             </children>
         </GridPane>
         <Line fx:id="winLine" opacity="0.0" stroke="black" strokeWidth="5.0" />
-      <Pane layoutY="404.0" prefHeight="41.0" prefWidth="196.5" style="-fx-background-color: white;">
+      <Pane layoutY="404.0" prefHeight="41.0" prefWidth="128.0" style="-fx-background-color: white;">
          <children>
             <Label fx:id="countX" layoutX="94.0" layoutY="6.0" text="_">
                <font>
@@ -88,16 +88,25 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="196.0" layoutY="404.0" prefHeight="41.0" prefWidth="196.5" style="-fx-background-color: white;">
+      <Pane layoutX="265.0" layoutY="404.0" prefHeight="41.0" prefWidth="128.0" style="-fx-background-color: white;">
          <children>
-            <Label fx:id="countO" layoutX="94.0" layoutY="6.0" text="_">
+            <Label fx:id="countO" layoutX="14.0" layoutY="6.0" text="_">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="154.0" layoutY="6.0" text="O">
+            <Label layoutX="98.0" layoutY="6.0" text="O">
                <font>
                   <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="127.0" layoutY="404.0" prefHeight="41.0" prefWidth="138.0" style="-fx-background-color: white;">
+         <children>
+            <Label fx:id="timerLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="6.0" prefHeight="30.0" prefWidth="68.0">
+               <font>
+                  <Font size="17.0" />
                </font>
             </Label>
          </children>
